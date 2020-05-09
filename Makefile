@@ -11,6 +11,12 @@ REPO_TESTING_SCRIPTS = $(wildcard $(REPO_SCRIPT_TESTING_DIR)/*.py)
 RELEASE_SCRIPTS = $(patsubst $(REPO_SCRIPT_RELEASE_DIR)/%.py, $(RELEASE_DIR)/%.py, $(wildcard $(REPO_SCRIPT_RELEASE_DIR)/*.py))
 TESTING_SCRIPTS = $(patsubst $(REPO_SCRIPT_TESTING_DIR)/%.py, $(TESTING_DIR)/%.py, $(wildcard $(REPO_SCRIPT_TESTING_DIR)/*.py))
 
+testing: pull_testing $(TESTING_SCRIPTS)
+	@echo "[INFO] TESTING scripts successfully updated."
+
+release: pull_release $(RELEASE_SCRIPTS)
+	@echo "[INFO] RELEASE scripts successfully updated."
+
 test:
 	@echo "REPO_MASTER = $(REPO_RELEASE_SCRIPTS)"
 	@echo "REPO_DEV = $(REPO_TESTING_SCRIPTS)"
@@ -23,12 +29,6 @@ setup:
 	git clone $(REMOTE) repo/master
 	cp -r repo/master repo/dev
 	@echo "[INFO] Setup finished."
-
-release: pull_release $(RELEASE_SCRIPTS)
-	@echo "[INFO] RELEASE scripts successfully updated."
-
-testing: pull_testing $(TESTING_SCRIPTS)
-	@echo "[INFO] TESTING scripts successfully updated."
 
 $(RELEASE_DIR)/%.py: $(REPO_SCRIPT_RELEASE_DIR)/%.py
 	cp $^ $@
