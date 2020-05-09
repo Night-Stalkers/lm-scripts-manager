@@ -24,10 +24,11 @@ test:
 	@echo "TS = $(TESTING_SCRIPTS)"
 
 setup:
-	@echo "[INFO] Setting up repo..."
+	@echo "[INFO] Setting up ns-scripts-manager..."
 	mkdir -p repo/master
 	git clone $(REMOTE) repo/master
 	cp -r repo/master repo/dev
+	mkdir -p $(RELEASE_DIR) $(TESTING_DIR)
 	@echo "[INFO] Setup finished."
 
 $(RELEASE_DIR)/%.py: $(REPO_SCRIPT_RELEASE_DIR)/%.py
