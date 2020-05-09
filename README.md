@@ -64,7 +64,7 @@ $ ln -s PATH_TO_NS_SCRIPTS_MANAGER/scripts/testing/ scripts
 
 6. Start the servers, if you did everything correctly. The scripts should load and the server should start with no problems.
 
-### Updating scripts from git
+### Updating scripts from git:
 
 1. Run (from the ns-scripts-manager root directory):
 - To update **RELEASE** scripts:
