@@ -47,7 +47,7 @@ $ git clone https://github.com/Night-Stalkers/ns-scripts-manager.git && cd ns-sc
 ```console
 $ make setup
 ```
-4. During the setup, you'll be asked to input your server configuration into *servers.txt*. Refers to the examples above. The *servers.txt* file should only contain server entries in the format above, no comments or anything else, otherwise it won't work. When you are given the chance to modify the *servers.txt* file during setup, make sure to delete **ALL** the placeholder text before adding your entries.
+4. During the setup, you'll be asked to input your server configuration into *servers.txt*. Refer to the examples above. The *servers.txt* file should only contain server entries in the format above, no comments or anything else, otherwise it won't work. When you are given the chance to modify the *servers.txt* file during setup, make sure to delete **ALL** the placeholder text before adding your entries.
 5. The setup will read your configuration and handle the symlinking process to the adequate directory. The setup will also backup each individual servers' `feature_server/scripts` directory to `feature_server/scripts_bkp`, this backup is restored when running `make unlink`.
 6. The setup will also automatically populate the `scripts/release` and `scripts/testing` directories if they are empty. It will use the scripts from all servers with type **RELEASE** to populate `scripts/release` and the scripts from all servers with type **TESTING** to populate `scripts/testing`. This way you don't need to copy scripts manually after setup.
 5. Start the servers. If everything went correctly, the scripts should load from their appropiate central scripts directory and the server should start with no problems.
