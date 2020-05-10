@@ -19,7 +19,7 @@ Once all the servers are set up and the symlinks are ready, the update-from-git 
 | dev | testing |
 
 
-Once you ran the `make setup`, you can start using the update from git feature. Now you can run either `make release` or `make testing` to automatically grab changes from the selected branch and apply them to the according directories. Make will only update scripts in the central directories if there have been changes in the according git branch. You can also run `make clean` to remove the downloaded repos. `make backup` backups the central scripts directories into `backup/release` and `backup/testing`, accordingly. Backups (if they exist) can be restored by using `make restore`, this will delete the existing scripts and restore the ones in backup to the central scripts directories, so be careful. 
+Once you run the `make setup` command, you can start using the update from git feature. Now you can run either `make release` or `make testing` to automatically grab changes from the selected branch and apply them to the according directories. Make will only update scripts in the central directories if there have been changes in the according git branch. You can also run `make clean` to remove the downloaded repos. `make backup` backups the central scripts directories into `backup/release` and `backup/testing`, accordingly. Backups (if they exist) can be restored by using `make restore`, this will delete the existing scripts and restore the ones in backup to the central scripts directories, so be careful. 
 
 ## Usage
 ### Setting it up:
@@ -64,7 +64,7 @@ $ ln -s PATH_TO_NS_SCRIPTS_MANAGER/scripts/testing/ scripts
 
 6. Start the servers, if you did everything correctly. The scripts should load and the server should start with no problems.
 
-### Updating scripts from git
+### Updating scripts from git:
 
 1. Run (from the ns-scripts-manager root directory):
 - To update **RELEASE** scripts:
