@@ -20,6 +20,18 @@ Once all the servers are set up and the symlinks are ready, the update-from-git 
 
 
 Once you run the `make setup` command, you can start using the update from git feature. Now you can run either `make release` or `make testing` to automatically grab changes from the selected branch and apply them to the according directories. Make will only update scripts in the central directories if there have been changes in the according git branch. You can also run `make clean` to remove the downloaded repos. `make backup` backups the central scripts directories into `backup/release` and `backup/testing`, accordingly. Backups (if they exist) can be restored by using `make restore`, this will delete the existing scripts and restore the ones in backup to the central scripts directories, so be careful. 
+The *servers.txt* file is where your server configuration goes. At setup, it is created and you are given the opportunity to modify it. Here you should add the path to each PySnip server and it's type (either **RELEASE** or **TESTING**), separated by a space. Only one entry per line is allowed. You *HAVE* to use absolute paths, otherwise you'll run into problems when symlinking occurs. The format of each entry is:
+
+`/ABSOLUTE/PATH/TO/SERVER/DIRECTORY TYPE`
+
+An example of a `servers.txt` file would be:
+```
+/home/user/AoS/servers/server0 RELEASE
+/home/user/AoS/servers/server1 RELEASE
+/home/user/testing/PySnip/test_server TESTING
+/srv/AoS/PySnip/ABCServer TESTING
+/srv/AoS/PySnip/XYZServer TESTING
+```
 
 ## Usage
 ### Setting it up:
@@ -29,40 +41,16 @@ Once you run the `make setup` command, you can start using the update from git f
 $ git clone https://github.com/Night-Stalkers/ns-scripts-manager.git && cd ns-scripts-manager
 ```
 
-2. Modify Makefile if needed (***Note to N-S Staff**: this is not needed by default if using for N-S Servers.*).
-3. Setup ns-scripts-manager:
+2. Modify Makefile if needed. (***Note to N-S Staff**: this is not needed by default if using for N-S Servers.*).
+3. Start the ns-scripts-manager setup:
 
 ```console
 $ make setup
 ```
-4. Copy already existing scripts from servers to ns-scripts-manager central scripts directories:
-```console
-$ cd YOUR_SERVER_ROOT_DIR/feature_server
-```
-- Copy all your existing scripts into the ns-scripts-manager/release and ns-scripts-manager/testing directories.
-```console
-$ cp -r scripts/* PATH_TO_NS_SCRIPTS_MANAGER/scripts/release
-$ cp -r scripts/* PATH_TO_NS_SCRIPTS_MANAGER/scripts/testing
-```
-- Repeat this step for every server, that way *ALL* of the already existing server scripts end up in the central scripts directories.
-
-5. Create symlinks from servers to ns-scripts-manager:
-- Backup server scripts folder before creating symlink, just in case.
-```console
-$ mv scripts/ scripts_bkp/
-```
-- Now let's create the symlink
-- If the current server is a **RELEASE** server run:
-```console
-$ ln -s PATH_TO_NS_SCRIPTS_MANAGER/scripts/release/ scripts
-```
-- Otherwise, if the current server is a **TESTING** server run:
-```console
-$ ln -s PATH_TO_NS_SCRIPTS_MANAGER/scripts/testing/ scripts
-```
-- Repeat this step for every server, remember to symlink to the correct directory according to the type of server you are currently symlinking.
-
-6. Start the servers, if you did everything correctly. The scripts should load and the server should start with no problems.
+4. During the setup, you'll be asked to input your server configuration into *servers.txt*. Refers to the examples above. The *servers.txt* file should only contain server entries in the format above, no comments or anything else, otherwise it won't work. When you are given the chance to modify the *servers.txt* file during setup, make sure to delete **ALL** the placeholder text before adding your entries.
+5. The setup will read your configuration and handle the symlinking process to the adequate directory. The setup will also backup each individual servers' `feature_server/scripts` directory to `feature_server/scripts_bkp`, this backup is restored when running `make unlink`.
+6. The setup will also automatically populate the `scripts/release` and `scripts/testing` directories if they are empty. It will use the scripts from all servers with type **RELEASE** to populate `scripts/release` and the scripts from all servers with type **TESTING** to populate `scripts/testing`. This way you don't need to copy scripts manually after setup.
+5. Start the servers. If everything went correctly, the scripts should load from their appropiate central scripts directory and the server should start with no problems.
 
 ### Updating scripts from git:
 
@@ -75,3 +63,36 @@ $ make release
 ```console
 $ make testing
 ```
+- If for some reason you want to clean the repo directory, you can run:
+```console
+$ make clean
+```
+Which will remove the git repo that was cloned during setup. Since after running this command the repo will be gone, you will have to run `make setup` again in order to be able to update scripts from git.
+
+### Relinking and unlinking:
+
+1. If you change the servers' configuration, for example, if you change a server's type and want ns-scripts-manager to update the symlinks accordingly, you can run:
+```console
+$ make relink
+```
+- It will read the *servers.txt* file and update the symlinks accordingly.
+
+2. If you want unlink the servers' symlinks for some reason, ns-scripts-manager handles this automatically for you. You can run:
+```console
+$ make unlink
+```
+- It will remove the symlinks and it will restore the scripts directory backup for each individual server.
+
+## Backing up and restoring:
+
+1. If you want to back up the contents of the central scripts directories, you can use:
+```console
+$ make backup
+```
+- It will create a copy of the `scripts/release` and `scripts/testing` directories in `backup/release` and `backup/testing` accordingly.
+
+2. If you want to restore these backups, you can run:
+```console
+$ make restore
+```
+- This empties the `scripts/release` and `scripts/testing` directories and then copies the contents of `backup/release` and `backup/tesing` to their respective directories. Since this deletes the existing scripts in the central scripts directories, you should be careful and only use it if absolutely necessary.
