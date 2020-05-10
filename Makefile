@@ -29,6 +29,17 @@ setup:
 	git clone $(REMOTE) repo/master
 	cp -r repo/master repo/dev
 	mkdir -p $(RELEASE_DIR) $(TESTING_DIR)
+	touch servers.txt
+	@test -s servers.txt || printf "REPLACE THIS WITH YOUR SERVERS' PATH AND TYPE SEPARATED BY A SPACE. ONE ENTRY PER LINE.\nUSE ABSOLUTE PATHS!\n/home/user/servers/server_01 RELEASE\n/home/user/servers/server_02 TESTING\nONE ENTRY PER LINE." >> servers.txt
+	@echo "[INFO] You will now start editing the server configuration in servers.txt."
+	@echo "[INFO] This will open the file in vi."
+	@echo "[INFO] If you are unfamiliar with vi: Press i to go into insert mode, <ESC> to go back to normal mode."
+	@echo "[INFO] Once you are finished adding your entries, go back to normal mode and type ':wq' and hit <RETURN> to save and quit."
+	@read -p "[INFO] Press enter to continue..."
+	@vi servers.txt
+	@sleep 1
+	@echo "[INFO] Starting servers setup..."
+	@./setup-servers.sh
 	@echo "[INFO] Setup finished."
 
 $(RELEASE_DIR)/%.py: $(REPO_SCRIPT_RELEASE_DIR)/%.py
@@ -49,7 +60,7 @@ pull_testing:
 	cd repo/dev && git pull
 	@echo "[INFO] Done."
 
-.PHONY: clean backup restore
+.PHONY: clean backup restore unlink relink
 
 clean:
 	@echo "[INFO] Cleaning up..."
@@ -68,3 +79,10 @@ backup:
 
 restore:
 	@./restore.sh
+
+unlink:
+	@./unlink.sh
+
+relink:
+	@./setup-servers.sh
+
