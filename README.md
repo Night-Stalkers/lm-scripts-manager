@@ -1,4 +1,4 @@
-# NS Scripts Manager
+# LM Scripts Manager
 A simple GNU Make based scripts manager for PySnip server scripts. Useful for managing scripts of multiple PySnip server instances. It allows you to easily have multiple PySnips instances loading their scripts from a same directory. It also allows you to pull changes from a git repository, and automatically apply the changes to the scripts directory, that way the all the server instances get the updated scripts without having to manually copy files.
 
 ## How does it work?
@@ -10,7 +10,7 @@ These two directories are the places where scripts will be located.
 * The **release** directory is intended for stable scripts, used by _production_ servers, in other words, the **release** directory will hold all the scripts that have been tested and are confirmed to be stable. _Production_ servers are intended to symlink their `feature_server/scripts/` directory to `scripts/release/`.
 * The **testing** directory is intended for scripts which are still being tested and may not be stable yet, which are used by _testing_ servers. _Testing_ servers are intended to symlink their `feature_server/scripts/` directory to `scripts/testing/`.
 
-Once all the servers are set up and the symlinks are ready, the update-from-git feature may be used. This requires you to have a git repo set up, by default the Makefile is set to use the *master* and *dev* branches from the **ns-scripts** repo for scripts updates, of course you can modify these settings to fit your use case. Once you have modified the Makefile to use your repo (if you have one), you can run the `make setup` command to clone and set up two local copies of the repository, one for each branch. By default, ns-scripts-manager uses the following branches:
+Once all the servers are set up and the symlinks are ready, the update-from-git feature may be used. This requires you to have a git repo set up, by default the Makefile is set to use the *master* and *dev* branches from the **lm-scripts** repo for scripts updates, of course you can modify these settings to fit your use case. Once you have modified the Makefile to use your repo (if you have one), you can run the `make setup` command to clone and set up two local copies of the repository, one for each branch. By default, lm-scripts-manager uses the following branches:
 
 
 | Git Branch | Applies Changes to |
@@ -38,11 +38,11 @@ An example of a `servers.txt` file would be:
 1. Clone this repo:
 
 ```console
-$ git clone https://github.com/Night-Stalkers/ns-scripts-manager.git && cd ns-scripts-manager
+$ git clone https://github.com/Night-Stalkers/lm-scripts-manager.git && cd lm-scripts-manager
 ```
 
 2. Modify Makefile if needed. (***Note to N-S Staff**: this is not needed by default if using for N-S Servers.*).
-3. Start the ns-scripts-manager setup:
+3. Start the lm-scripts-manager setup:
 
 ```console
 $ make setup
@@ -54,7 +54,7 @@ $ make setup
 
 ### Updating scripts from git:
 
-1. Run (from the ns-scripts-manager root directory):
+1. Run (from the lm-scripts-manager root directory):
 - To update **RELEASE** scripts:
 ```console
 $ make release
@@ -71,13 +71,13 @@ Which will remove the git repo that was cloned during setup. Since after running
 
 ### Relinking and unlinking:
 
-1. If you change the servers' configuration, for example, if you change a server's type and want ns-scripts-manager to update the symlinks accordingly, you can run:
+1. If you change the servers' configuration, for example, if you change a server's type and want lm-scripts-manager to update the symlinks accordingly, you can run:
 ```console
 $ make relink
 ```
 - It will read the *servers.txt* file and update the symlinks accordingly.
 
-2. If you want unlink the servers' symlinks for some reason, ns-scripts-manager handles this automatically for you. You can run:
+2. If you want unlink the servers' symlinks for some reason, lm-scripts-manager handles this automatically for you. You can run:
 ```console
 $ make unlink
 ```
